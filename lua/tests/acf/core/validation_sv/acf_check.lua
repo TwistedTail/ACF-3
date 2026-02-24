@@ -101,6 +101,7 @@ return {
             func = function( State )
                 local Ent = State.Ent
                 Ent.ACF = nil
+                Ent.GetClass = function() return "prop_physics3" end
                 Ent.GetBrushPlaneCount = function() return 20 end
 
                 local Activate = stub( ACF, "Activate" )

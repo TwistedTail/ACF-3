@@ -116,6 +116,8 @@ do
 		VerifyData(Data)
 
 		-- Creating the entity
+		if not Player:CheckLimit("_acf_controller") then return false end
+
 		local CanSpawn	= HookRun("ACF_PreSpawnEntity", "acf_controller", Player, Data)
 		if CanSpawn == false then return false end
 
@@ -126,6 +128,9 @@ do
 		Entity:SetAngles(Ang)
 		Entity:SetPos(Pos)
 		Entity:Spawn()
+
+		Player:AddCleanup("acf_controller", Entity)
+		Player:AddCount("_acf_controller", Entity)
 
 		Entity.Name = "ACF AIO Controller"
 		Entity.ShortName = "ACF AIO Controller"

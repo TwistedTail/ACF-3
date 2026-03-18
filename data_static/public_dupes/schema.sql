@@ -15,5 +15,6 @@ CREATE TABLE DupeData (
     cost REAL,
     weight REAL,
     type TEXT,
+    mobility TEXT,
     packid TEXT REFERENCES PackData(packid) ON DELETE SET NULL
 );

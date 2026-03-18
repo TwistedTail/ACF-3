@@ -101,18 +101,6 @@ local function CreateMenu(Menu)
 		local DupeList = vgui.Create("DPanelSelect", ListContainer)
 		DupeList:Dock(FILL)
 
-		-- Populate Icons
-		local dupes = sql.Query("SELECT * FROM DupeData NATURAL JOIN PackData") or {}
-		for _, dupe in ipairs(dupes) do
-			local FilePath = DupePath .. "/" .. dupe.packid .. "/" .. dupe.path
-			local Icon = vgui.Create("DImageButton")
-			Icon:SetSize(256, 256)
-			Icon:SetMaterial(Material(FilePath .. ".jpg"))
-			Icon:SetToolTip(dupe.name)
-			Icon.Data = dupe
-			DupeList:AddPanel(Icon)
-		end
-
 		function DupeList:OnActivePanelChanged(_, New)
 			if not New or not New.Data then return end
 
@@ -218,6 +206,8 @@ local function CreateMenu(Menu)
 				DupeList:AddPanel(Icon)
 			end
 		end
+
+		ApplyFilter.DoClick() -- Load initial list with default filters
 	end
 end
 

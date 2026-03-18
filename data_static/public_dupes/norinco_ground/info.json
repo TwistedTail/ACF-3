@@ -1,0 +1,67 @@
+{
+  "Name": "Norinco Ground",
+  "Author": "Len",
+  "Contact": "lengthened_gradient",
+  "Dupes": {
+    "aa20": {
+      "Name": "AA20",
+      "Weight": 9062,
+      "Cost": 71.53,
+      "Type": "AA"
+    },
+    "apc12": {
+      "Name": "APC12",
+      "Weight": 6970.96,
+      "Cost": "41.29",
+      "Type": "APC"
+    },
+    "atm152": {
+      "Name": "ATM152",
+      "Weight": 7951.07,
+      "Cost": 61.86,
+      "Type": "ATGM"
+    },
+    "ifv10030": {
+      "Name": "IFV-10030",
+      "Weight": 24273.29,
+      "Cost": 269.83,
+      "Type": "IFV"
+    },
+    "lt85": {
+      "Name": "LT-85",
+      "Weight": 9163.5,
+      "Cost": 91.78,
+      "Type": "Light Tank"
+    },
+    "spg152": {
+      "Name": "SPG-152",
+      "Weight": 13454.17,
+      "Cost": 204.89,
+      "Type": "SPG"
+    },
+    "wcv105": {
+      "Name": "WCV-105",
+      "Weight": 18354.13,
+      "Cost": 187.58,
+      "Type": "Light Tank"
+    },
+    "wfv25": {
+      "Name": "WFV-25",
+      "Weight": 13145.43,
+      "Cost": 136.55,
+      "Type": "IFV"
+    },
+    "wpv12": {
+      "Name": "WPV-12",
+      "Weight": 3066.14,
+      "Cost": 22.48,
+      "Type": "Transport"
+    },
+    "wtv12": {
+      "Name": "WTV-12",
+      "Weight": 9397.84,
+      "Cost": 46.52,
+      "Type": "Transport"
+    }
+  }
+}

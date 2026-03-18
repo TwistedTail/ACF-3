@@ -25,6 +25,7 @@ end
 
 -- Loads a dupe from the given path and sends it to the client
 local function LoadDupe(name, path)
+	print(name, path)
 	local read = file.Read(path, "GAME")
 
 	local success, dupe, info, moreinfo = AdvDupe2.Decode(read)
@@ -48,36 +49,14 @@ local function CreateMenu(Menu)
 	function OpenDupeWindow:DoClickInternal()
 		local DupePath = "addons/ACF-3/data_static/public_dupes"
 
+		local Schema = file.Read(DupePath .. "/schema.sql", "GAME")
+		if Schema then sql.Query(Schema) print("Loaded Schema") end
+
 		local _, DupePacks = file.Find(DupePath .. "/*", "GAME")
-		local dupes = {}
-		local dupe_infos = {}
 		for _, DupePack in ipairs(DupePacks) do
 			local PackPath = DupePath .. "/" .. DupePack
-			local PackInfo = file.Read(PackPath .. "/info.json", "GAME")
-
-			local PackDupeTable = {}
-			if PackInfo then
-				local Temp = util.JSONToTable(PackInfo)
-				PackDupeTable = Temp and Temp.Dupes or {}
-			end
-
-			local Dupes, _ = file.Find(PackPath .. "/*.txt", "GAME")
-			for _, Dupe in ipairs(Dupes) do
-				local Name = string.StripExtension(Dupe)
-				if PackDupeTable[Name] then
-					PackDupeTable[Name].Name = nil -- We already know this
-					for k, v in pairs(PackDupeTable[Name]) do
-						dupe_infos[k] = dupe_infos[k] or {}
-						dupe_infos[k][v] = true
-					end
-				end
-				table.insert(dupes, {
-					Name = Name,
-					Path = PackPath .. "/" .. Name .. ".txt",
-					Image = PackPath .. "/" .. Name .. ".jpg",
-					Info = PackDupeTable[Name],
-				})
-			end
+			local PackData = file.Read(PackPath .. "/pack.sql", "GAME")
+			if PackData then sql.Query(PackData) print("Loaded Pack Data") end
 		end
 
 		local DupeFrame = vgui.Create("DFrame")
@@ -139,30 +118,34 @@ local function CreateMenu(Menu)
 		local DupeList = SelectSubPanel:Add("DPanelSelect")
 		DupeList:Dock(FILL)
 
+		local dupes = sql.Query("SELECT * FROM DupeData d JOIN PackData p ON d.packid = p.packid")
 		for _, dupe in ipairs(dupes) do
-			local Material = Material(dupe.Image)
+			local FilePath = DupePath .. "/" .. dupe.packid .. "/" .. dupe.path
+			print("Adding dupe to browser: " .. FilePath)
+			local Material = Material(FilePath .. ".jpg")
 			local Icon = vgui.Create("DImageButton")
 			Icon:SetSize(256, 256)
 			Icon:SetMaterial(Material)
-			Icon:SetToolTip(dupe.Name)
+			Icon:SetToolTip(dupe.name)
 			Icon.Data = dupe
 			DupeList:AddPanel(Icon)
 		end
 
 		function DupeList:OnActivePanelChanged(_, New)
-			local readFile = file.Open(New.Data.Path, "rb", "GAME")
+			local FilePath = DupePath .. "/" .. New.Data.packid .. "/" .. New.Data.path .. ".txt"
+			local readFile = file.Open(FilePath, "rb", "GAME")
 			local readData = readFile:Read(readFile:Size())
 			readFile:Close()
 
 			local info, dupestring = getInfo(readData:sub(7))
-			DupeFileInfo.Name:SetText("File: " .. (New.Data.Name or "Unknown"))
+			DupeFileInfo.Name:SetText("File: " .. (New.Data.name or "Unknown"))
 			DupeFileInfo.Owner:SetText("Owner: " .. (info.name or "Unknown"))
 			DupeFileInfo.Date:SetText("Date: " .. (info.date or "Unknown"))
 			DupeFileInfo.Time:SetText("Time: " .. (info.time or "Unknown"))
 			DupeFileInfo.Size:SetText("Size: " .. string.NiceSize(tonumber(info.size or 0)))
 
-			CurrentDupeName = New.Data.Name
-			CurrentDupePath = New.Data.Path
+			CurrentDupeName = New.Data.name
+			CurrentDupePath = FilePath
 		end
 
 		-- Dupe filter stuff

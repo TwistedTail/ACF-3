@@ -55,13 +55,13 @@ local function CreateMenu(Menu)
 		local _, DupePacks = file.Find(DupePath .. "/*", "GAME")
 		for _, DupePack in ipairs(DupePacks) do
 			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.sql", "GAME")
-			if PackData then sql.Query(PackData) end
+			if PackData then sql.Query(PackData) print(DupePack) end
 		end
 
 		-- Main Window (Still a Frame, but we'll use ACF_Panel for the guts)
 		local DupeFrame = vgui.Create("DFrame")
 		DupeFrame:SetTitle("ACF Community Dupe Browser")
-		DupeFrame:SetSize(1200, 600)
+		DupeFrame:SetSize(1215, 840)
 		DupeFrame:Center()
 		DupeFrame:MakePopup()
 		DupeFrame:SetSizable(true)
@@ -80,7 +80,7 @@ local function CreateMenu(Menu)
 
 		local MetaInfoContent, _ = InfoPanel:AddCollapsible("Dupe Information (Meta)", true)
 		local MetaLabels = {}
-		for _, name in ipairs({"Author", "Type", "Weight", "Cost"}) do
+		for _, name in ipairs({"Author", "Type", "Weight", "Cost", "Description"}) do
 			MetaLabels[name] = MetaInfoContent:AddLabel(name .. ": ")
 		end
 

@@ -19,7 +19,7 @@ local function getInfo(str)
 			error("Attempt to read AD2 file with malformed info block!")
 		end
 	end
-	return info, str:sub(last+2)
+	return info, str:sub(last + 2)
 end
 
 local function LoadDupe(name, path)
@@ -201,7 +201,7 @@ local function CreateMenu(Menu)
 				local Icon = vgui.Create("DImageButton")
 				Icon:SetSize(256, 256)
 				Icon:SetMaterial(Material(FilePath .. ".jpg"))
-				Icon:SetToolTip(dupe.name)
+				Icon:SetTooltip(dupe.name)
 				Icon.Data = dupe
 				DupeList:AddPanel(Icon)
 			end

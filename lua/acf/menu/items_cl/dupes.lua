@@ -46,7 +46,7 @@ local function CreateMenu(Menu)
 	local OpenDupeWindow = Menu:AddButton("Open Dupe Browser")
 
 	function OpenDupeWindow:DoClick()
-		local DupePath = "addons/ACF-3/data_static/public_dupes"
+		local DupePath = "addons/ACF-3/data_static/acf3_public_dupes"
 
 		-- SQL Initialization
 		local Schema = file.Read(DupePath .. "/schema.sql", "GAME")

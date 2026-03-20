@@ -28,7 +28,8 @@ local function LoadDupe(name, path)
 
 	if success then
 		AdvDupe2.SendFile(name, read)
-		AdvDupe2.LoadGhosts(dupe, info, moreinfo, name)
+		-- TODO: Find out why this errors the first time it's ran and never afterwards
+		-- AdvDupe2.LoadGhosts(dupe, info, moreinfo, name)
 		AdvDupe2.Notify("Dupe Loaded: " .. name, NOTIFY_GENERIC)
 	else
 		AdvDupe2.Notify("File could not be decoded. (" .. dupe .. ") Upload Canceled.", NOTIFY_ERROR)
@@ -49,12 +50,12 @@ local function CreateMenu(Menu)
 		local DupePath = "addons/ACF-3/data_static/acf3_public_dupes"
 
 		-- SQL Initialization
-		local Schema = file.Read(DupePath .. "/schema.sql", "GAME")
+		local Schema = file.Read(DupePath .. "/schema.txt", "GAME")
 		if Schema then sql.Query(Schema) end
 
 		local _, DupePacks = file.Find(DupePath .. "/*", "GAME")
 		for _, DupePack in ipairs(DupePacks) do
-			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.sql", "GAME")
+			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.txt", "GAME")
 			if PackData then sql.Query(PackData) print(DupePack) end
 		end
 
@@ -190,9 +191,9 @@ local function CreateMenu(Menu)
 			local cmin, cmax = FilterCostMin:GetValue(), FilterCostMax:GetValue()
 
 			local query = "SELECT * FROM DupeData NATURAL JOIN PackData WHERE weight BETWEEN " .. wmin .. " AND " .. wmax .. " AND cost BETWEEN " .. cmin .. " AND " .. cmax
-			if author then query = query .. " AND author = " .. sql.SQLStr(author) end
-			if type then query = query .. " AND type = " .. sql.SQLStr(type) end
-			if mobility then query = query .. " AND mobility = " .. sql.SQLStr(mobility) end
+			if author then query = query .. " AND author = " .. sql.sqlStr(author) end
+			if type then query = query .. " AND type = " .. sql.sqlStr(type) end
+			if mobility then query = query .. " AND mobility = " .. sql.sqlStr(mobility) end
 
 			local dupes = sql.Query(query) or {}
 			DupeList:Clear()

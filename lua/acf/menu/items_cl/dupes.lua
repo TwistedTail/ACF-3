@@ -192,9 +192,9 @@ local function CreateMenu(Menu)
 			local cmin, cmax = FilterCostMin:GetValue(), FilterCostMax:GetValue()
 
 			local query = "SELECT * FROM DupeData NATURAL JOIN PackData WHERE weight BETWEEN " .. wmin .. " AND " .. wmax .. " AND cost BETWEEN " .. cmin .. " AND " .. cmax
-			if author then query = query .. " AND author = " .. sql.sqlStr(author) end
-			if type then query = query .. " AND type = " .. sql.sqlStr(type) end
-			if mobility then query = query .. " AND mobility = " .. sql.sqlStr(mobility) end
+			if author then query = query .. " AND author = " .. sql.SQLStr(author) end
+			if type then query = query .. " AND type = " .. sql.SQLStr(type) end
+			if mobility then query = query .. " AND mobility = " .. sql.SQLStr(mobility) end
 
 			local dupes = sql.Query(query) or {}
 			DupeList:Clear()

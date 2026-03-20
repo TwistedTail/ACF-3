@@ -57,7 +57,7 @@ local function CreateMenu(Menu)
 		local _, DupePacks = file.Find(DupePath .. "/*", "GAME")
 		for _, DupePack in ipairs(DupePacks) do
 			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.txt", "GAME")
-			if PackData then sql.Query(PackData) print(DupePack) end
+			if PackData then sql.Query(PackData) end
 		end
 
 		-- Main Window (Still a Frame, but we'll use ACF_Panel for the guts)

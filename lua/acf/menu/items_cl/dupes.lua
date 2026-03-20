@@ -24,7 +24,7 @@ end
 
 local function LoadDupe(name, path)
 	local read = file.Read(path, "GAME")
-	local success, dupe, _, _ = AdvDupe2.Decode(read)
+	local success, dupe = AdvDupe2.Decode(read)
 
 	if success then
 		AdvDupe2.SendFile(name, read)

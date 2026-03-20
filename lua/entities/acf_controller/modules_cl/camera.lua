@@ -1,4 +1,4 @@
-local CurTime = CurTime
+local CurTime = ACF.Clock.CurTime
 
 return function(State)
     State.CamAng = angle_zero

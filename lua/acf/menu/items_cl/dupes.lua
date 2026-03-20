@@ -1,5 +1,5 @@
 -- Returns the information header and the remaining dupe string of an ad2 file without deserializing the dupe
-local function getInfo(str)
+local function GetInfo(str)
 	local last = str:find("\2")
 	if not last then
 		error("Attempt to read AD2 file with malformed info block!")
@@ -111,7 +111,7 @@ local function CreateMenu(Menu)
 			local readData = readFile:Read(readFile:Size())
 			readFile:Close()
 
-			local success, info = pcall(getInfo, readData:sub(7))
+			local success, info = pcall(GetInfo, readData:sub(7))
 
 			if success then
 				DupeLabels.Name:SetText("Name: " .. (New.Data.name or "Unknown"))

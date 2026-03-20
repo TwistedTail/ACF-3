@@ -47,7 +47,8 @@ local function CreateMenu(Menu)
 	local OpenDupeWindow = Menu:AddButton("Open Dupe Browser")
 
 	function OpenDupeWindow:DoClick()
-		local DupePath = "addons/ACF-3/data_static/acf3_public_dupes"
+		local DupePath = "addons/ACF-3/data_static/acf_public_dupes"
+		local ImagePath = "materials/acf_public_dupes/"
 
 		-- SQL Initialization
 		local Schema = file.Read(DupePath .. "/schema.txt", "GAME")
@@ -198,7 +199,7 @@ local function CreateMenu(Menu)
 			local dupes = sql.Query(query) or {}
 			DupeList:Clear()
 			for _, dupe in ipairs(dupes) do
-				local FilePath = DupePath .. "/" .. dupe.packid .. "/" .. dupe.path
+				local FilePath = ImagePath .. "/" .. dupe.packid .. "/" .. dupe.path
 				local Icon = vgui.Create("DImageButton")
 				Icon:SetSize(256, 256)
 				Icon:SetMaterial(Material(FilePath .. ".jpg"))

@@ -24,11 +24,12 @@ end
 
 local function LoadDupe(name, path)
 	local read = file.Read(path, "GAME")
-	local success, dupe, info, moreinfo = AdvDupe2.Decode(read)
+	local success, dupe = AdvDupe2.Decode(read)
 
 	if success then
 		AdvDupe2.SendFile(name, read)
-		AdvDupe2.LoadGhosts(dupe, info, moreinfo, name)
+		-- TODO: Find out why this errors the first time it's ran and never afterwards
+		-- AdvDupe2.LoadGhosts(dupe, info, moreinfo, name)
 		AdvDupe2.Notify("Dupe Loaded: " .. name, NOTIFY_GENERIC)
 	else
 		AdvDupe2.Notify("File could not be decoded. (" .. dupe .. ") Upload Canceled.", NOTIFY_ERROR)
@@ -46,16 +47,17 @@ local function CreateMenu(Menu)
 	local OpenDupeWindow = Menu:AddButton("Open Dupe Browser")
 
 	function OpenDupeWindow:DoClick()
-		local DupePath = "addons/ACF-3/data_static/acf3_public_dupes"
+		local DupePath = "addons/ACF-3/data_static/acf_public_dupes"
+		local ImagePath = "materials/acf_public_dupes/"
 
 		-- SQL Initialization
-		local Schema = file.Read(DupePath .. "/schema.sql", "GAME")
+		local Schema = file.Read(DupePath .. "/schema.txt", "GAME")
 		if Schema then sql.Query(Schema) end
 
 		local _, DupePacks = file.Find(DupePath .. "/*", "GAME")
 		for _, DupePack in ipairs(DupePacks) do
-			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.sql", "GAME")
-			if PackData then sql.Query(PackData) print(DupePack) end
+			local PackData = file.Read(DupePath .. "/" .. DupePack .. "/pack.txt", "GAME")
+			if PackData then sql.Query(PackData) end
 		end
 
 		-- Main Window (Still a Frame, but we'll use ACF_Panel for the guts)
@@ -197,7 +199,7 @@ local function CreateMenu(Menu)
 			local dupes = sql.Query(query) or {}
 			DupeList:Clear()
 			for _, dupe in ipairs(dupes) do
-				local FilePath = DupePath .. "/" .. dupe.packid .. "/" .. dupe.path
+				local FilePath = ImagePath .. "/" .. dupe.packid .. "/" .. dupe.path
 				local Icon = vgui.Create("DImageButton")
 				Icon:SetSize(256, 256)
 				Icon:SetMaterial(Material(FilePath .. ".jpg"))
